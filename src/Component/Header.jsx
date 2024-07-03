@@ -203,27 +203,107 @@ const Header = () => {
             <li className=" w-full text-gray-500">
               <div className="flex flex-col sm:flex-row">
                 <div className="relative">
-                  <Input
-                    type="search"
-                    color="white"
-                    label="Type here..."
-                    className="pr-20"
-                    containerProps={{
-                      className: "md:min-w-[400px] min-w-[270px]"
-                    }}
-                  />
+                  <form onSubmit={handleSubmit}>
+                    <Input
+                      placeholder={
+                        ChangeSearch === true ? "Search Movei" : "Search Series"
+                      }
+                      onChange={(e) => setusername(e.target.value)}
+                      value={username}
+                      type="search"
+                      color="white"
+                      label="Type here..."
+                      className="pr-25"
+                      containerProps={{
+                        className: "min-w-[288px]"
+                      }}
+                    />
+                  </form>
+                  <ul
+                    style={{ maxHeight: "348px" }}
+                    className={
+                      username.length > 0
+                        ? "bg-[#212529] absolute mt-4 overflow-y-scroll w-[400px] h-72 text-white"
+                        : "hidden"
+                    }
+                  >
+                    {ChangeSearch === true
+                      ? userSearchMovei
+                          .filter((user) =>
+                            user.original_title.toLowerCase().includes(username)
+                          )
+                          .map((user, index) => (
+                            <Link
+                              to={`/moveiDetails/${user.id}/title/${user.title
+                                .replace(/\s+/g, "-")
+                                .trim()
+                                .toLowerCase()}`}
+                            >
+                              <li
+                                key={index}
+                                className="flex justify-between cursor-pointer mb-2 hover:bg-[#777fd4] p-2 hover:scale-95 transition-all ease-in duration-200 border-cyan-300 border border-e-0 border-s-0 rounded-lg"
+                              >
+                                <div className="avatar">
+                                  <div className="w-12 rounded-full">
+                                    <img
+                                      className="max-w-none"
+                                      src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${user?.poster_path}`}
+                                    />
+                                  </div>
+                                </div>
+                                <h1>{user.original_title}</h1>
+                              </li>
+                            </Link>
+                          ))
+                      : userSearchseries
+                          .filter((user) =>
+                            user.original_name.toLowerCase().includes(username)
+                          )
+                          .map((user, index) => (
+                            <Link
+                              to={`/seriesDetails/${user.id}/name/${user.name
+                                .replace(/\s+/g, "-")
+                                .trim()
+                                .toLowerCase()}`}
+                            >
+                              <li
+                                key={index}
+                                className="flex justify-between cursor-pointer mb-2 hover:bg-[#777fd4] p-2 hover:scale-95 transition-all ease-in duration-200 border-cyan-300 border border-e-0 border-s-0 rounded-lg"
+                              >
+                                <div className="avatar">
+                                  <div className="w-12 rounded-full">
+                                    <img
+                                      className="max-w-none"
+                                      src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${user?.poster_path}`}
+                                    />
+                                  </div>
+                                </div>
+                                <h1>{user.original_name}</h1>
+                              </li>
+                            </Link>
+                          ))}
+                  </ul>
                   <Button
+                    onClick={() => setChangeSearch(!ChangeSearch)}
                     size="sm"
                     color="white"
-                    className="!absolute right-1 top-1 rounded"
+                    className={
+                      ChangeSearch === true
+                        ? "!absolute right-1 top-1 rounded bg-red-700 hover:text-white hover:font-bold"
+                        : "!absolute right-1 top-1 rounded bg-blue-700 hover:text-white hover:font-bold"
+                    }
                   >
-                    Search Series
+                    {ChangeSearch === true ? "Search Moveis" : "Search Series"}
                   </Button>
                 </div>
                 <div>
                   <button
                     type="button"
-                    className="sm:px-[10px] py-[7px] px-20 inline-block outline-2 rounded-md border-[1px] border-[#166534] text-sm font-medium leading-normal text-[#166534] transition duration-150 ease-in-out hover:border-info-600 hover:bg-[#16a34a] hover:bg-opacity-30 hover:text-[#16a34a] focus:border-info-600 focus:text-[#16a34a] focus:ring-0 active:border-[#16a34a] active:text-info-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                    className={
+                      username.length > 0
+                        ? "px-[10px] py-[7px] inline-block outline-2 rounded-md border-[1px] border-[#50af71] text-sm font-medium leading-normal text-[#50af71] transition duration-150 ease-in-out hover:border-info-600 hover:bg-[#16a34a] hover:bg-opacity-30 hover:text-[#fff] focus:border-info-600 focus:text-[#16a34a] focus:ring-0 active:border-[#16a34a] active:text-info-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                        : "cursor-auto px-[10px] py-[7px] inline-block outline-2 rounded-md border-[1px] border-[#166534] text-sm font-medium leading-normal text-[#166534] transition duration-150 ease-in-out hover:border-info-600"
+                    }
                   >
                     Search
                   </button>
