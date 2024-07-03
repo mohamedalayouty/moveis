@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply text-neutral-800;
+  }
+  html.dark {
+    @apply text-neutral-50;
+    @apply bg-neutral-800;
+  }
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.m::before {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, .8) 0, transparent 60%, rgba(0, 0, 0, .8));
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+/* .shadoooow::before {
+  content: "";
+  position: absolute;
+  right: 40px;
+  height: 500px;
+  width: 5%;
+  box-shadow: 0 0 12px 12px rgb(112, 103, 103);
+  z-index: 1;
+  background-color: black ;
+  opacity: 50%;
+} */
